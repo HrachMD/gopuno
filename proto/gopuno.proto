@@ -1,0 +1,41 @@
+syntax = "proto3";
+package pbgopuno;
+
+option go_package = "github.com/HrachMD/pbgopuno";
+
+enum Status {
+    STATUS_UNSPECIFIED = 0;
+    STATUS_QUEUED = 1;
+    STATUS_SENT = 2;
+    STATUS_HIT = 3;
+    STATUS_FAILED = 4;
+}
+
+enum Platform {
+    PLATFORM_UNSPECIFIED = 0;
+    PLATFORM_IOS = 1;
+    PLATFORM_ANDROID = 2;
+    PLATFORM_HUAWEI = 3;
+    PLATFORM_WEB = 4;
+}
+
+message Push {
+    bytes bytes = 1;
+    Platform platform = 2;
+    string token = 3;
+    string title = 4;
+    string message = 5;
+}
+
+message SendPushRequest {
+    Push push = 1;
+}
+
+message SendPushResponse {
+    bytes id = 1;
+    Status status = 2;
+}
+
+service ServicePush {
+    rpc Send (SendPushRequest) returns (SendPushResponse);
+}
